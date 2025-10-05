@@ -23,6 +23,10 @@ spec:
           httpGet:
             path: /vehicles/
             port: 8080
+          initialDelaySeconds: 20   # espera 20s antes de la primera prueba
+          periodSeconds: 10         # prueba cada 10s
+          timeoutSeconds: 5         # da hasta 5s de espera a la respuesta
+          failureThreshold: 6       # permite hasta 6 fallos antes de marcar Unhealthy
 ---
 apiVersion: v1
 kind: Service
