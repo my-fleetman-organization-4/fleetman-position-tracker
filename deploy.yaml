@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: position-tracker
-
-
 spec:
   selector:
     matchLabels:
@@ -18,25 +16,19 @@ spec:
       - name: position-tracker
         image: ${REPOSITORY_TAG}
         env:
-        - name: QUEUE_HOST
-          value: fleetman-queue.jenkins.svc.cluster.local 
-
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
         imagePullPolicy: Never
         readinessProbe:
           httpGet:
             path: /vehicles/
             port: 8080
-          initialDelaySeconds: 20   # espera 20s antes de la primera prueba
-          periodSeconds: 10         # prueba cada 10s
-          timeoutSeconds: 5         # da hasta 5s de espera a la respuesta
-          failureThreshold: 6       # permite hasta 6 fallos antes de marcar Unhealthy
+            
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-position-tracker
-
-
 
 spec:
   # This defines which pods are going to be represented by this Service
@@ -50,4 +42,3 @@ spec:
       port: 8080
 
   type: ClusterIP
-
