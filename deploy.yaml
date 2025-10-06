@@ -16,8 +16,13 @@ spec:
       - name: position-tracker
         image: ${REPOSITORY_TAG}
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: production-microservice
+          - name: SPRING_PROFILES_ACTIVE
+            value: production-microservice
+          - name: SPRING_DATA_MONGODB_HOST
+            value: fleetman-mongodb.jenkins.svc.cluster.local
+          - name: SPRING_ACTIVEMQ_BROKER_URL
+            value: tcp://fleetman-queue.jenkins.svc.cluster.local:61616
+
         imagePullPolicy: Never
         readinessProbe:
           httpGet:
